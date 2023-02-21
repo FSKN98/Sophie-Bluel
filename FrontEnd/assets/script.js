@@ -1,60 +1,7 @@
-let modal = null;
-
-const createModal = function (e) {
-  e.preventDefault();
-  const target = document.querySelector(e.target.getAttribute("href"));
-  target.style.display = null;
-
-  target.removeAttribute("aria-hidden");
-  target.setAttribute("aria-modal", "true");
-  console.log("j'ai cliqué sur le bouton");
-  modal = target;
-  modal.addEventListener("click", closeModal);
-  modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
-};
-const closeModal = function (e) {
-  if (modal === null) return;
-  e.preventDefault();
-  modal.style.display = "none";
-  modal.setAttribute("aria-hidden", "true");
-  modal.removeAttribute("aria-modal");
-  modal.removeEventListener("click", closeModal);
-  modal
-    .querySelector(".js-modal-close")
-    .removeEventListener("click", closeModal);
-  modal = null;
-};
-document.querySelectorAll(".js-modal").forEach((a) => {
-  a.addEventListener("click", createModal);
-});
 const checkIsLogin = () => {
   let token = localStorage.getItem("token");
   console.log(token);
   if (token) {
-    /*<div id="nav-admin" class="display-none">
-      <button id="btn-edit">
-        <i class="fa-regular fa-pen-to-square"></i>Mode édition
-      </button>
-      <button id="btn-publish-changes">
-        <a href="#" class="text-decoration-none">
-          publier les changements
-        </a>
-      </button>
-    </div>;*/
-    // Créer DIV
-    // Donner un ID
-    // Donner une classname
-    // Créer bouton 1, donner classname
-    // Créer icone fontawesome , donner classname
-    // Donner le incone 1 en enfant de bouton 1
-    // Creer bouton 2, donner classname
-    // Creer un A, donner href et classname
-    // Donner à A enfant de boutton 2
-    // Ensuite les 2 boutons les donner en enfant à la DIV que j'ai crée
-    // Recuperer la DIV avec l'ID admin-bar-container
-    // Donner la DIV que je viens de créer en enfant à la div que j'ai récupérer par l'ID (ligne 36)
-    // BARRE NAV /
-    // DIV //
     var navElement = document.createElement("div");
     navElement.className = "navigation";
     // BOUTON 1 ET ICONE PENSIL//
@@ -79,31 +26,18 @@ const checkIsLogin = () => {
     document.getElementById("admin-bar-container").appendChild(navElement);
 
     // BOUTON MODIFIER //
-    var iconePensil2 = document.createElement("i");
+    var iconePensil2 = document.createElement("button");
     iconePensil2.className = "fa-regular fa-pen-to-square";
-    iconePensil2.addEventListener("click", createModal, false);
 
-    document.getElementById("projets").appendChild(iconePensil2);
+    //iconePensil2.addEventListener("click", createModal, false);
 
-    // BOUTON 1 //
-    /*var button1 = document.createElement("button"); // Créer un élément <button>
-    var t = document.createTextNode("Mode édition"); // Créer un noeud textuel
+    document.getElementById("modifier").appendChild(iconePensil2);
 
-    document.body.appendChild(button1); // Ajoute la balise <button> à la balise <body>
-
-    // ICONE FONTAWESOME //
-
-    // BOUTON 2 //
-    var button2 = document.createElement("button");
-    var t = document.createTextNode("Mode édition");
-
-    document.body.appendChild(button2);
-
-    // A //
-    var linkElement = document.createElement("a");
-    linkElement.className = "linkNav";
-    linkElement.href = "#";
-    linkElement.innerHTML = "publier les changements";*/
+    /*<button class="modalButton modalTrigger">modifier</button>;
+    var modifierModal = document.createElement("button");
+    modifierModal.class = "modalButton modalTrigger";
+    modifierModal.innerHTML = "modifier";
+    iconePensil2.appendChild(modifierModal);*/
 
     var liElement = document.createElement("li");
     var aElement = document.createElement("a");
@@ -132,6 +66,16 @@ const checkIsLogin = () => {
   imgElement.alt = "instagram";
   liElement2.appendChild(imgElement);
   document.getElementsByClassName("navigationMenu")[0].appendChild(liElement2);
+
+  function logout() {
+    // Supprimer les informations d'identification stockées
+    localStorage.removeItem("username");
+    localStorage.removeItem("password");
+
+    // Rediriger l'utilisateur vers la page de connexion
+    window.location.href =
+      "file:///C:/Users/33778/Documents/OPENCLASSROOMS/PROJET%20N%C2%B06/projet%20n%C2%B06/Portfolio-architecte-sophie-bluel/FrontEnd/assets/login.html";
+  }
 };
 checkIsLogin();
 
@@ -213,3 +157,151 @@ const getWorksFilters = (filter) => {
   console.log(filter);
   getWorks(filter);
 };
+/* Création de la première modal */
+
+const firstModal = () => {
+  var e = document.getElementsByClassName("worksImgContainer")[0];
+
+  //Pour supprimer ce qu'il y avait avant
+  var child = e.lastElementChild;
+  while (child) {
+    e.removeChild(child);
+    child = e.lastElementChild;
+  }
+  fetch("http://localhost:5678/api/works")
+    .then((response) => response.json())
+    .then((count) => {
+      console.log(count);
+
+      function createWorksList() {
+        count.forEach((el) => {
+          var figureElement2 = document.createElement("figure");
+          figureElement2.className = "worksFigureContainer";
+          var imageElement2 = document.createElement("img");
+          imageElement2.src = el.imageUrl;
+          imageElement2.alt = el.title;
+          imageElement2.crossOrigin = "anonymous";
+
+          imageElement2.className = "modalImgSize";
+          figureElement2.appendChild(imageElement2);
+          /*Icone delete*/
+          var iconeDelete = document.createElement("button");
+          iconeDelete.className = "fa-regular fa-trash-can deleteButtonWorks";
+          iconeDelete.id = "delete-gallery";
+          iconeDelete.addEventListener("click", () => goToAddForm(), false);
+          figureElement2.appendChild(iconeDelete);
+
+          /*icone large image */
+
+          var iconeLarge = document.createElement("button");
+          iconeLarge.className =
+            "fa-solid fa-arrows-up-down-left-right largeButtonWorks";
+          iconeLarge.addEventListener("click", () => goToAddForm(), false);
+          figureElement2.appendChild(iconeLarge);
+
+          var buttonGalleryElementModale = document.createElement("button");
+          buttonGalleryElementModale.className = "edit-button-modale";
+          buttonGalleryElementModale.innerText = "éditer";
+          // Rattachement de la balise BUTTON à la section
+          figureElement2.appendChild(buttonGalleryElementModale);
+
+          document
+            .getElementsByClassName("worksImgContainer")[0]
+            .appendChild(figureElement2);
+        });
+      }
+      createWorksList();
+    });
+};
+
+/* Modal */
+const modalContainer = document.querySelector(".modalContainer");
+const modalTriggers = document.querySelectorAll(".modalTrigger");
+console.log(modalTriggers);
+modalTriggers.forEach((trigger) =>
+  trigger.addEventListener("click", toggleModal)
+);
+
+/* Bouton "Ajouter une photo" */
+
+var addButton = document.createElement("button");
+addButton.className = "addWorksButton";
+addButton.innerHTML = "Ajouter une photo";
+addButton.addEventListener("click", () => goToAddForm(), false);
+document.getElementsByClassName("workButtonModal")[0].appendChild(addButton);
+
+/* Affichage de la modal, et création du contenu de la galerie*/
+function toggleModal() {
+  modalContainer.classList.toggle("active");
+  firstModal();
+}
+const goToAddForm = () => {
+  console.log("je suis dans le formulaire d ajout");
+  var e = document.getElementsByClassName("worksImgContainer")[0];
+
+  //Pour supprimer ce qu'il y avait avant
+  var child = e.lastElementChild;
+  while (child) {
+    e.removeChild(child);
+    child = e.lastElementChild;
+  }
+  /* Boutton précédent */
+  var iconeReturn = document.createElement("i");
+  iconeReturn.className = "fa-solid fa-arrow-left goBackModal";
+  /* Pour retourner à la premère modal */
+  iconeReturn.addEventListener("click", () => firstModal(), false);
+  e.appendChild(iconeReturn);
+
+  document.getElementsByClassName("titleModal")[0].innerHTML = "Ajout photo";
+  var inputImage = document.createElement("input");
+  inputImage.type = "file";
+  inputImage.name = "Add-Image";
+  inputImage.className = "addPhoto";
+
+  /*Créé label pour lier au boutton */
+
+  var labelAddButton = document.createElement("label");
+  labelAddButton.htmlFor = "Add-Image";
+
+  var divAddButton = document.createElement("div");
+  divAddButton.className = "addPhotoTest";
+  labelAddButton.appendChild(divAddButton);
+
+  var divImgAddButton = document.createElement("div");
+  divImgAddButton.className = "fa-solid fa-image photoIcone";
+  divAddButton.appendChild(divImgAddButton);
+
+  var buttonAddButton = document.createElement("button");
+  buttonAddButton.textContent = "+ Ajouter photo";
+  buttonAddButton.className = "buttonAddButton";
+  divAddButton.appendChild(buttonAddButton);
+
+  var labelCategory = document.createElement("label");
+  labelCategory.for = "category";
+  labelCategory.innerHTML = "Cathégories";
+
+  var labelTitle = document.createElement("label");
+  labelTitle.for = "title";
+  labelTitle.innerHTML = "Titre";
+
+  var inputTitle = document.createElement("input");
+  inputTitle.name = "title";
+  inputTitle.className = "input";
+
+  var inputCategory = document.createElement("input");
+  inputCategory.name = "category";
+  inputCategory.className = "input";
+
+  e.appendChild(inputImage);
+  e.appendChild(labelAddButton);
+  e.appendChild(labelTitle);
+  e.appendChild(inputTitle);
+  e.appendChild(labelCategory);
+  e.appendChild(inputCategory);
+};
+
+var deleteGalery = document.createElement("button");
+deleteGalery.className = "deleteGalery";
+deleteGalery.innerHTML = "Supprimer la galerie";
+deleteGalery.addEventListener("click", () => goToAddForm(), false);
+document.getElementsByClassName("workButtonModal")[0].appendChild(deleteGalery);

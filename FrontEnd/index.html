@@ -26,15 +26,6 @@
         <ul class="navigationMenu">
           <li>projets</li>
           <li>contact</li>
-          <!-- <li>
-            <a
-              class="login"
-              href="./assets/login.html"
-              title="Se rendre à la page connexion pour l'administrateur"
-              >login</a
-            >
-          </li>
-          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>-->
         </ul>
       </nav>
     </header>
@@ -63,30 +54,30 @@
         </article>
       </section>
       <section id="portfolio">
-        <div>
+        <div class="projetsContainer">
           <h2 id="projets">Mes Projets</h2>
-          <a href="#modal1" class="js-modal">modifier</a>
-          <aside
-            id="modifier"
-            class="modal"
-            aria-hidden="true"
-            role="dialog"
-            aria-labelledby="titleModal"
-            style="display: none"
-          >
-            <div class="modal-wrapper">
-              <button class="js-modal-close">Fermer la boîte modal</button>
-              <h3 id="titleModal">Galerie photo</h3>
+          <div class="modalContainer">
+            <div class="overlay modalTrigger"></div>
+            <div class="modal">
+              <button class="closeModal modalTrigger">x</button>
+              <h2 class="titleModal">Galerie photo</h2>
+              <div id="borderTest"></div>
+              <div>
+                <div class="worksImgContainer">
+                  <div class="deleteImg"></div>
+                </div>
+                <div class="dividerAndButton">
+                  <div class="dividerModal"></div>
+                  <div class="workButtonModal"></div>
+                </div>
+              </div>
             </div>
-          </aside>
+          </div>
+          <button id="modifier" class="modalButton modalTrigger">
+            modifier
+          </button>
         </div>
-        <ul id="filters" class="ulFilters">
-          <!-- <li class="liFilters">Tous</li>
-          
-          <li class="liFilters">Objets</li>
-          <li class="liFilters">Appartements</li>
-          <li class="liFilters">Hôtels & restaurents</li>-->
-        </ul>
+        <ul id="filters" class="ulFilters"></ul>
         <div class="gallery">
           <!--<figure>
             <img src="assets/images/abajour-tahina.png" alt="Abajour Tahina" />
