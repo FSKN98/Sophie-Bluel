@@ -45,6 +45,7 @@ const checkIsLogin = () => {
 
     aElement.title = "Deconnexion";
     aElement.innerHTML = "logout";
+    aElement.addEventListener("click", () => logout(), false);
     liElement.appendChild(aElement);
 
     document.getElementsByClassName("navigationMenu")[0].appendChild(liElement);
@@ -67,15 +68,6 @@ const checkIsLogin = () => {
   liElement2.appendChild(imgElement);
   document.getElementsByClassName("navigationMenu")[0].appendChild(liElement2);
 
-  function logout() {
-    // Supprimer les informations d'identification stockées
-    localStorage.removeItem("username");
-    localStorage.removeItem("password");
-
-    // Rediriger l'utilisateur vers la page de connexion
-    window.location.href =
-      "file:///C:/Users/33778/Documents/OPENCLASSROOMS/PROJET%20N%C2%B06/projet%20n%C2%B06/Portfolio-architecte-sophie-bluel/FrontEnd/assets/login.html";
-  }
 };
 checkIsLogin();
 
@@ -90,6 +82,7 @@ const getCategories = () => {
     .then((response) => response.json())
     .then((count) => {
       console.log(count);
+
 
       //Fonction forEach pour créer autant d'élément que dans le tableau de l'API
       count.forEach((el) => {
@@ -188,7 +181,7 @@ const firstModal = () => {
           var iconeDelete = document.createElement("button");
           iconeDelete.className = "fa-regular fa-trash-can deleteButtonWorks";
           iconeDelete.id = "delete-gallery";
-          iconeDelete.addEventListener("click", () => goToAddForm(), false);
+          iconeDelete.addEventListener("click", () => deleteWork(el.id), false);
           figureElement2.appendChild(iconeDelete);
 
           /*icone large image */
@@ -252,6 +245,7 @@ const goToAddForm = () => {
   iconeReturn.addEventListener("click", () => firstModal(), false);
   e.appendChild(iconeReturn);
 
+  /* Ajout photo deuxième modal */ 
   document.getElementsByClassName("titleModal")[0].innerHTML = "Ajout photo";
   var inputImage = document.createElement("input");
   inputImage.type = "file";
@@ -305,3 +299,27 @@ deleteGalery.className = "deleteGalery";
 deleteGalery.innerHTML = "Supprimer la galerie";
 deleteGalery.addEventListener("click", () => goToAddForm(), false);
 document.getElementsByClassName("workButtonModal")[0].appendChild(deleteGalery);
+
+/* Création fonction delete works */
+
+const deleteWork =(id)=>{
+  const token=localStorage.getItem("token")
+console.log(id)
+fetch("http://localhost:5678/api/works/"+id, {
+  method: "DELETE",
+  headers: {
+    Authorization: "Bearer "+token,
+    "Content-Type": "application/json",
+   Accept: "application/json",
+  },
+})
+.then (()=>{
+  firstModal()
+getWorks(0)
+})
+}
+
+const logout =()=>{
+  localStorage.removeItem("token")
+  window.location.href = "./index.html";
+}
