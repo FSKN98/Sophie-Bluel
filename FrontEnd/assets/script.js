@@ -1,3 +1,5 @@
+let categories = []
+
 const checkIsLogin = () => {
   let token = localStorage.getItem("token");
   console.log(token);
@@ -32,12 +34,6 @@ const checkIsLogin = () => {
     //iconePensil2.addEventListener("click", createModal, false);
 
     document.getElementById("modifier").appendChild(iconePensil2);
-
-    /*<button class="modalButton modalTrigger">modifier</button>;
-    var modifierModal = document.createElement("button");
-    modifierModal.class = "modalButton modalTrigger";
-    modifierModal.innerHTML = "modifier";
-    iconePensil2.appendChild(modifierModal);*/
 
     var liElement = document.createElement("li");
     var aElement = document.createElement("a");
@@ -82,7 +78,7 @@ const getCategories = () => {
     .then((response) => response.json())
     .then((count) => {
       console.log(count);
-
+categories = count
 
       //Fonction forEach pour créer autant d'élément que dans le tableau de l'API
       count.forEach((el) => {
@@ -154,6 +150,8 @@ const getWorksFilters = (filter) => {
 
 const firstModal = () => {
   var e = document.getElementsByClassName("worksImgContainer")[0];
+  var b = document.getElementsByClassName("workButtonModal")[0];
+  //var d = document.getElementsByClassName("deleteGalery")[0];
 
   //Pour supprimer ce qu'il y avait avant
   var child = e.lastElementChild;
@@ -161,6 +159,16 @@ const firstModal = () => {
     e.removeChild(child);
     child = e.lastElementChild;
   }
+  var childButton = b.lastElementChild;
+  while (childButton) {
+    b.removeChild(childButton);
+    childButton = b.lastElementChild;
+  }
+  /*var childDelete = d.lastElementChild;
+  while (childDelete) {
+    d.removeChild(childDelete);
+    childDelete = d.lastElementChild;
+  }*/
   fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
     .then((count) => {
@@ -201,7 +209,21 @@ const firstModal = () => {
           document
             .getElementsByClassName("worksImgContainer")[0]
             .appendChild(figureElement2);
+            
         });
+        /* Bouton "Ajouter une photo" */
+
+var addButton = document.createElement("button");
+addButton.className = "addWorksButton";
+addButton.innerHTML = "Ajouter une photo";
+addButton.addEventListener("click", () => goToAddForm(), false);
+document.getElementsByClassName("workButtonModal")[0].appendChild(addButton);
+
+var deleteGalery = document.createElement("button");
+deleteGalery.className = "deleteGalery";
+deleteGalery.innerHTML = "Supprimer la galerie";
+deleteGalery.addEventListener("click", () => goToAddForm(), false);
+document.getElementsByClassName("workButtonModal")[0].appendChild(deleteGalery);
       }
       createWorksList();
     });
@@ -215,13 +237,7 @@ modalTriggers.forEach((trigger) =>
   trigger.addEventListener("click", toggleModal)
 );
 
-/* Bouton "Ajouter une photo" */
 
-var addButton = document.createElement("button");
-addButton.className = "addWorksButton";
-addButton.innerHTML = "Ajouter une photo";
-addButton.addEventListener("click", () => goToAddForm(), false);
-document.getElementsByClassName("workButtonModal")[0].appendChild(addButton);
 
 /* Affichage de la modal, et création du contenu de la galerie*/
 function toggleModal() {
@@ -231,12 +247,19 @@ function toggleModal() {
 const goToAddForm = () => {
   console.log("je suis dans le formulaire d ajout");
   var e = document.getElementsByClassName("worksImgContainer")[0];
+  var b = document.getElementsByClassName("workButtonModal")[0];
+
 
   //Pour supprimer ce qu'il y avait avant
   var child = e.lastElementChild;
   while (child) {
     e.removeChild(child);
     child = e.lastElementChild;
+  }
+  var childButton = b.lastElementChild;
+  while (childButton) {
+    b.removeChild(childButton);
+    childButton = b.lastElementChild;
   }
   /* Boutton précédent */
   var iconeReturn = document.createElement("i");
@@ -247,15 +270,17 @@ const goToAddForm = () => {
 
   /* Ajout photo deuxième modal */ 
   document.getElementsByClassName("titleModal")[0].innerHTML = "Ajout photo";
+  
   var inputImage = document.createElement("input");
   inputImage.type = "file";
-  inputImage.name = "Add-Image";
+  inputImage.id="inputImage"
+  inputImage.name = "image";
   inputImage.className = "addPhoto";
 
   /*Créé label pour lier au boutton */
 
   var labelAddButton = document.createElement("label");
-  labelAddButton.htmlFor = "Add-Image";
+  labelAddButton.htmlFor = "image";
 
   var divAddButton = document.createElement("div");
   divAddButton.className = "addPhotoTest";
@@ -272,7 +297,8 @@ const goToAddForm = () => {
 
   var labelCategory = document.createElement("label");
   labelCategory.for = "category";
-  labelCategory.innerHTML = "Cathégories";
+
+  labelCategory.innerHTML = "Catégories";
 
   var labelTitle = document.createElement("label");
   labelTitle.for = "title";
@@ -280,25 +306,48 @@ const goToAddForm = () => {
 
   var inputTitle = document.createElement("input");
   inputTitle.name = "title";
+  inputTitle.id="inputTitle"
   inputTitle.className = "input";
 
-  var inputCategory = document.createElement("input");
-  inputCategory.name = "category";
-  inputCategory.className = "input";
+  var selectCategory = document.createElement("select");
+  selectCategory.id ="categorySelect"
+  selectCategory.name = "category";
+  selectCategory.className = "input";
+console.log(categories)
+categories.forEach((el) => {
 
-  e.appendChild(inputImage);
-  e.appendChild(labelAddButton);
+  var option = document.createElement("option");
+  option.innerHTML = el.name;
+  option.value=el.id
+  option.className="options"
+  selectCategory.appendChild(option);
+});
+  /*<select name="pets" id="pet-select">
+    <option value="">--Please choose an option--</option>
+    <option value="dog">Dog</option>
+    <option value="cat">Cat</option>
+    <option value="hamster">Hamster</option>
+    <option value="parrot">Parrot</option>
+    <option value="spider">Spider</option>
+    <option value="goldfish">Goldfish</option>
+</select>*/
+ 
+  e.appendChild(inputImage)
+  e.appendChild(labelAddButton)
   e.appendChild(labelTitle);
   e.appendChild(inputTitle);
   e.appendChild(labelCategory);
-  e.appendChild(inputCategory);
+  e.appendChild(selectCategory);
+
+  var addButton = document.createElement("button");
+addButton.className = "addWorksButton";
+addButton.innerHTML = "Valider";
+addButton.addEventListener("click", () => addWork(event));
+document.getElementsByClassName("workButtonModal")[0].appendChild(addButton);
+
 };
 
-var deleteGalery = document.createElement("button");
-deleteGalery.className = "deleteGalery";
-deleteGalery.innerHTML = "Supprimer la galerie";
-deleteGalery.addEventListener("click", () => goToAddForm(), false);
-document.getElementsByClassName("workButtonModal")[0].appendChild(deleteGalery);
+
 
 /* Création fonction delete works */
 
@@ -322,4 +371,52 @@ getWorks(0)
 const logout =()=>{
   localStorage.removeItem("token")
   window.location.href = "./index.html";
+}
+const addWork =(event)=>{
+  const token=localStorage.getItem("token")
+  
+  console.log("test")
+  const category = document.getElementById("categorySelect");
+  const title = document.getElementById("inputTitle");
+  const image = document.getElementById("inputImage");
+  console.log(image.value)
+  event.preventDefault();
+  const formData = new FormData();
+	
+	formData.append("image", image.files[0]);
+	formData.append("title", title.value);
+	formData.append("category", category.value);
+
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer "+token,
+      Accept: "application/json",
+    },
+    body: formData,
+  })
+    .then((res) => {
+      if (res.ok) {
+        const modalContainer = document.querySelector(".modalContainer");
+        modalContainer.classList.toggle("active");
+        getWorks(0)
+        return res.json();
+      } else {
+        console.log(res.statusText);
+        throw new Error(res.statusText);
+      }
+    })
+    .then((work) => {
+      console.log(work);
+      if (work) {
+        console.log(work);
+      } else {
+        throw new Error("Invalid response from server");
+      }
+    })
+    .catch((error) => {
+      console.log(error.message);
+      
+    });
+
 }
