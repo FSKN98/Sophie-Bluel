@@ -149,6 +149,7 @@ const getWorksFilters = (filter) => {
 /* Création de la première modal */
 
 const firstModal = () => {
+  document.getElementsByClassName("titleModal")[0].innerHTML = "Galerie photo";
   var e = document.getElementsByClassName("worksImgContainer")[0];
   var b = document.getElementsByClassName("workButtonModal")[0];
   //var d = document.getElementsByClassName("deleteGalery")[0];
@@ -280,7 +281,7 @@ const goToAddForm = () => {
   /*Créé label pour lier au boutton */
 
   var labelAddButton = document.createElement("label");
-  labelAddButton.htmlFor = "image";
+  labelAddButton.htmlFor = "inputImage";
 
   var divAddButton = document.createElement("div");
   divAddButton.className = "addPhotoTest";
@@ -290,7 +291,7 @@ const goToAddForm = () => {
   divImgAddButton.className = "fa-solid fa-image photoIcone";
   divAddButton.appendChild(divImgAddButton);
 
-  var buttonAddButton = document.createElement("button");
+  var buttonAddButton = document.createElement("div");
   buttonAddButton.textContent = "+ Ajouter photo";
   buttonAddButton.className = "buttonAddButton";
   divAddButton.appendChild(buttonAddButton);
