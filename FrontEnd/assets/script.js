@@ -238,8 +238,6 @@ modalTriggers.forEach((trigger) =>
   trigger.addEventListener("click", toggleModal)
 );
 
-
-
 /* Affichage de la modal, et création du contenu de la galerie*/
 function toggleModal() {
   modalContainer.classList.toggle("active");
@@ -249,7 +247,6 @@ const goToAddForm = () => {
   console.log("je suis dans le formulaire d ajout");
   var e = document.getElementsByClassName("worksImgContainer")[0];
   var b = document.getElementsByClassName("workButtonModal")[0];
-
 
   //Pour supprimer ce qu'il y avait avant
   var child = e.lastElementChild;
@@ -272,6 +269,9 @@ const goToAddForm = () => {
   /* Ajout photo deuxième modal */ 
   document.getElementsByClassName("titleModal")[0].innerHTML = "Ajout photo";
   
+  var divContainer = document.createElement("div")
+  divContainer.className="width100"
+
   var inputImage = document.createElement("input");
   inputImage.type = "file";
   inputImage.id="inputImage"
@@ -323,23 +323,15 @@ categories.forEach((el) => {
   option.className="options"
   selectCategory.appendChild(option);
 });
-  /*<select name="pets" id="pet-select">
-    <option value="">--Please choose an option--</option>
-    <option value="dog">Dog</option>
-    <option value="cat">Cat</option>
-    <option value="hamster">Hamster</option>
-    <option value="parrot">Parrot</option>
-    <option value="spider">Spider</option>
-    <option value="goldfish">Goldfish</option>
-</select>*/
  
-  e.appendChild(inputImage)
-  e.appendChild(labelAddButton)
-  e.appendChild(labelTitle);
-  e.appendChild(inputTitle);
-  e.appendChild(labelCategory);
-  e.appendChild(selectCategory);
-
+  divContainer.appendChild(inputImage)
+  divContainer.appendChild(labelAddButton)
+  divContainer.appendChild(labelTitle);
+  divContainer.appendChild(inputTitle);
+  divContainer.appendChild(labelCategory);
+  divContainer.appendChild(selectCategory);
+  e.appendChild(divContainer)
+  
   var addButton = document.createElement("button");
 addButton.className = "addWorksButton";
 addButton.innerHTML = "Valider";
@@ -383,7 +375,6 @@ const addWork =(event)=>{
   console.log(image.value)
   event.preventDefault();
   const formData = new FormData();
-	
 	formData.append("image", image.files[0]);
 	formData.append("title", title.value);
 	formData.append("category", category.value);
@@ -416,7 +407,7 @@ const addWork =(event)=>{
       }
     })
     .catch((error) => {
-      console.log(error.message);
+      console.log(error.message)   
       
     });
 
