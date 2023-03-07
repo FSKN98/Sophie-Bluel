@@ -309,17 +309,12 @@ footer nav ul {
 }
 .btn-edit:hover {
   cursor: pointer;
-  scale: 1.05;
-  transition: 0.2s;
 }
 .btn-publish-changes {
-  font-weight: 800px;
   background: #ffffff;
 }
 .btn-publish-changes:hover {
   cursor: pointer;
-  scale: 1.05;
-  transition: 0.2s;
 }
 /*PROJETS*/
 .projetsContainer {
