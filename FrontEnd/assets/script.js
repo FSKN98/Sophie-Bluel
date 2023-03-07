@@ -3,7 +3,9 @@ let categories = []
 const checkIsLogin = () => {
   let token = localStorage.getItem("token");
   console.log(token);
-  if (token) {
+  if (token)
+  {
+    document.getElementById("modifier").className="displayBlock modalButton modalTrigger";
     var navElement = document.createElement("div");
     navElement.className = "navigation";
     // BOUTON 1 ET ICONE PENSIL//
@@ -45,7 +47,9 @@ const checkIsLogin = () => {
     liElement.appendChild(aElement);
 
     document.getElementsByClassName("navigationMenu")[0].appendChild(liElement);
-  } else {
+  } else
+  {
+       document.getElementById("modifier").className="displayNone";
     var liElement = document.createElement("li");
     var aElement = document.createElement("a");
     aElement.className = "login";
@@ -278,6 +282,38 @@ const goToAddForm = () => {
   inputImage.name = "image";
   inputImage.className = "addPhoto";
 
+  var imageAdd = document.createElement("img")
+  imageAdd.id = "blah"
+  imageAdd.src = "#"
+  imageAdd.className="displayNone"
+  imageAdd.accept=" image/jpeg, image/png"
+  inputImage.onchange = evt => {
+  const [file] = inputImage.files
+    console.log(file)
+    
+    if (file)
+    { /*Condition pour accepter que les images inférieur à 4mo */ 
+      
+      if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg")
+      {
+        alert("Le fichier n'est pas du type jpeg ou png")
+      }
+      else if (file.size > 4000)
+      {
+      alert("La photo est supérieur à 4 mo")
+      }
+      else
+      {
+         imageAdd.src = URL.createObjectURL(file)
+    imageAdd.className = "displayBlock addImagePreview"
+    buttonAddButton.className = "displayNone";
+        divImgAddButton.className = "displayNone";
+        conditionImgTexte.className="displayNone"
+      }
+   
+  }
+}
+
   /*Créé label pour lier au boutton */
 
   var labelAddButton = document.createElement("label");
@@ -290,11 +326,17 @@ const goToAddForm = () => {
   var divImgAddButton = document.createElement("div");
   divImgAddButton.className = "fa-solid fa-image photoIcone";
   divAddButton.appendChild(divImgAddButton);
+  divAddButton.appendChild(imageAdd)
 
   var buttonAddButton = document.createElement("div");
   buttonAddButton.textContent = "+ Ajouter photo";
   buttonAddButton.className = "buttonAddButton";
   divAddButton.appendChild(buttonAddButton);
+
+  var conditionImgTexte = document.createElement("div")
+  conditionImgTexte.textContent = "jpg, png : 4mo max";
+  conditionImgTexte.className = "marginConditionImg";
+  divAddButton.appendChild(conditionImgTexte);
 
   var labelCategory = document.createElement("label");
   labelCategory.for = "category";
@@ -364,6 +406,7 @@ getWorks(0)
 const logout =()=>{
   localStorage.removeItem("token")
   window.location.href = "./index.html";
+
 }
 const addWork =(event)=>{
   const token=localStorage.getItem("token")

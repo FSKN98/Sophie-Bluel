@@ -525,7 +525,12 @@ ul {
   width: 95%;
   display: none;
 }
-
+.displayNone{
+  display: none;
+}
+.displayBlock{
+  display: block;
+}
 .input {
   background: #ffffff;
   box-shadow: 0px 4px 14px rgb(0 0 0 / 9%);
@@ -561,4 +566,11 @@ ul {
   padding: 10px 30px;
   color: #306685;
   margin-top: 12px;
+}
+.addImagePreview{
+  object-fit: contain;
+    height: 100%;
+}
+.marginConditionImg{
+  margin-top: 7px;
 }
