@@ -2,13 +2,11 @@ let token = localStorage.getItem("token");
 if (token) {
   window.location.href = "../index.html";
 }
-
 // CHANGER LE STYLE EN MANIPULANT LE DOM UNIQUEMENT
 document.getElementsByTagName("li")[2].style.fontWeight = "bold";
 document.getElementsByTagName("footer")[0].style.marginTop = "280px";
-/**
- * CONNEXION DE L ADMIN VIA L API
- */
+
+ //CONNEXION DE L'ADMIN VIA L'API
 const submit = document.getElementById("button-login");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
@@ -19,7 +17,6 @@ submit.addEventListener("click", function (event) {
     email: email.value,
     password: password.value,
   };
-
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: {

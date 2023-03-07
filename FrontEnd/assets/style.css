@@ -2,7 +2,6 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
 html,
 body,
 div,
@@ -153,13 +152,11 @@ h1 {
   font-weight: 800;
   color: #b1663c;
 }
-
 h1 > span {
   font-family: "Work Sans";
   font-size: 10px;
   letter-spacing: 0.1em;
 }
-
 h2 {
   font-family: "Syne";
   font-weight: 700;
@@ -175,7 +172,6 @@ nav li {
   padding: 0 10px;
   font-size: 1.2em;
 }
-
 li:hover {
   color: #b1663c;
 }
@@ -198,7 +194,6 @@ li:hover {
 #introduction h2 {
   margin-bottom: 1em;
 }
-
 #introduction p {
   margin-bottom: 0.5em;
 }
@@ -213,7 +208,6 @@ li:hover {
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
-
 .gallery img {
   width: 100%;
 }
@@ -246,7 +240,6 @@ li:hover {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-
 input[type="submit"] {
   font-family: "Syne";
   font-weight: 700;
@@ -257,13 +250,11 @@ input[type="submit"] {
   text-align: center;
   border-radius: 60px;
 }
-
 footer nav ul {
   display: flex;
   justify-content: flex-end;
   margin: 2em;
 }
-
 /*  NAV ADMIN */
 .display-none {
   display: none;
@@ -284,7 +275,6 @@ footer nav ul {
   justify-content: center;
   align-items: center;
 }
-
 .fa-pen-to-square {
   margin-right: 10px;
 }
@@ -295,7 +285,47 @@ footer nav ul {
 .login:hover {
   color: #b1663c;
 }
+.navigation {
+  background-color: black;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-edit,
+.btn-publish-changes {
+  border-radius: 25px;
+  padding: 8px 30px;
+  background: #ffffff;
+  margin: 0 10px;
+  font-size: 18px;
+  border: none;
+}
+.btn-edit {
+  background: #000;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+}
+.btn-edit:hover {
+  cursor: pointer;
+  scale: 1.05;
+  transition: 0.2s;
+}
+.btn-publish-changes {
+  font-weight: 800px;
+  background: #ffffff;
+}
+.btn-publish-changes:hover {
+  cursor: pointer;
+  scale: 1.05;
+  transition: 0.2s;
+}
 /*PROJETS*/
+.projetsContainer {
+  display: flex;
+  justify-content: center;
+}
 li {
   cursor: pointer;
 }
@@ -330,47 +360,8 @@ ul {
   color: white;
   background-color: #1d6154;
 }
-/* NAVIGATION */
-.navigation {
-  background-color: black;
-  padding: 15px;
-  display: flex;
-  justify-content: center;
-}
-.btn-edit,
-.btn-publish-changes {
-  border-radius: 25px;
-  padding: 8px 30px;
-  background: #ffffff;
-  margin: 0 10px;
-  font-size: 18px;
-  border: none;
-}
-.btn-edit {
-  background: #000;
-  color: #ffffff;
-  cursor: pointer;
-  display: flex;
-}
-.btn-edit:hover {
-  cursor: pointer;
-  scale: 1.05;
-  transition: 0.2s;
-}
-.btn-publish-changes {
-  font-weight: 800px;
-  background: #ffffff;
-}
-.btn-publish-changes:hover {
-  cursor: pointer;
-  scale: 1.05;
-  transition: 0.2s;
-}
+/* MODAL */
 
-.projetsContainer {
-  display: flex;
-  justify-content: center;
-}
 .modalButton {
   display: flex;
   flex-direction: row-reverse;
