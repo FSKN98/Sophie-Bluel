@@ -1,16 +1,16 @@
 let categories = []
 
+/* Barre de navigation en haute de la page */
 const checkIsLogin = () => {
   let token = localStorage.getItem("token");
   console.log(token);
   if (token)
   {
-    document.getElementById("modifier").className="displayBlock modalButton modalTrigger";
+    document.getElementById("modifier").className = "displayBlock modalButton modalTrigger"; //Pour afficher le bouton modifier sur la page login
     var navElement = document.createElement("div");
     navElement.className = "navigation";
-    // BOUTON 1 ET ICONE PENSIL//
+  
     var button1 = document.createElement("div");
-
     var iconePensil = document.createElement("i");
     iconePensil.className = "fa-regular fa-pen-to-square";
     button1.appendChild(iconePensil);
@@ -20,21 +20,15 @@ const checkIsLogin = () => {
     button1.appendChild(textButton1);
     button1.className = "btn-edit";
     navElement.appendChild(button1);
-    // BOUTON 2 //
-    var button2 = document.createElement("button");
 
+    var button2 = document.createElement("button");
     button2.textContent = "publier les changements";
     button2.className = "btn-publish-changes";
     navElement.appendChild(button2);
-
     document.getElementById("admin-bar-container").appendChild(navElement);
 
-    // BOUTON MODIFIER //
     var iconePensil2 = document.createElement("button");
     iconePensil2.className = "fa-regular fa-pen-to-square";
-
-    //iconePensil2.addEventListener("click", createModal, false);
-
     document.getElementById("modifier").appendChild(iconePensil2);
 
     var liElement = document.createElement("li");
@@ -62,7 +56,6 @@ const checkIsLogin = () => {
   }
   var liElement2 = document.createElement("li");
   var imgElement = document.createElement("img");
-
   imgElement.src = "./assets/icons/instagram.png";
   imgElement.alt = "instagram";
   liElement2.appendChild(imgElement);
@@ -73,7 +66,6 @@ checkIsLogin();
 
 const getCategories = () => {
   var element = document.createElement("li");
-
   element.className = "liFilters";
   element.innerHTML = "Tous";
   element.addEventListener("click", () => getWorksFilters(0), false);
@@ -83,7 +75,6 @@ const getCategories = () => {
     .then((count) => {
       console.log(count);
 categories = count
-
       //Fonction forEach pour créer autant d'élément que dans le tableau de l'API
       count.forEach((el) => {
         //Création des boutons
@@ -156,7 +147,6 @@ const firstModal = () => {
   document.getElementsByClassName("titleModal")[0].innerHTML = "Galerie photo";
   var e = document.getElementsByClassName("worksImgContainer")[0];
   var b = document.getElementsByClassName("workButtonModal")[0];
-  //var d = document.getElementsByClassName("deleteGalery")[0];
 
   //Pour supprimer ce qu'il y avait avant
   var child = e.lastElementChild;
@@ -169,11 +159,7 @@ const firstModal = () => {
     b.removeChild(childButton);
     childButton = b.lastElementChild;
   }
-  /*var childDelete = d.lastElementChild;
-  while (childDelete) {
-    d.removeChild(childDelete);
-    childDelete = d.lastElementChild;
-  }*/
+  
   fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
     .then((count) => {
@@ -187,9 +173,9 @@ const firstModal = () => {
           imageElement2.src = el.imageUrl;
           imageElement2.alt = el.title;
           imageElement2.crossOrigin = "anonymous";
-
           imageElement2.className = "modalImgSize";
           figureElement2.appendChild(imageElement2);
+
           /*Icone delete*/
           var iconeDelete = document.createElement("button");
           iconeDelete.className = "fa-regular fa-trash-can deleteButtonWorks";
@@ -198,7 +184,6 @@ const firstModal = () => {
           figureElement2.appendChild(iconeDelete);
 
           /*icone large image */
-
           var iconeLarge = document.createElement("button");
           iconeLarge.className =
             "fa-solid fa-arrows-up-down-left-right largeButtonWorks";
@@ -208,22 +193,22 @@ const firstModal = () => {
           var buttonGalleryElementModale = document.createElement("button");
           buttonGalleryElementModale.className = "edit-button-modale";
           buttonGalleryElementModale.innerText = "éditer";
+
           // Rattachement de la balise BUTTON à la section
           figureElement2.appendChild(buttonGalleryElementModale);
-
           document
             .getElementsByClassName("worksImgContainer")[0]
-            .appendChild(figureElement2);
-            
+            .appendChild(figureElement2);           
         });
-        /* Bouton "Ajouter une photo" */
 
+        /* Bouton "Ajouter une photo" */
 var addButton = document.createElement("button");
 addButton.className = "addWorksButton";
 addButton.innerHTML = "Ajouter une photo";
 addButton.addEventListener("click", () => goToAddForm(), false);
-document.getElementsByClassName("workButtonModal")[0].appendChild(addButton);
-
+        document.getElementsByClassName("workButtonModal")[0].appendChild(addButton);
+        
+/* Supprimer la galerie */
 var deleteGalery = document.createElement("button");
 deleteGalery.className = "deleteGalery";
 deleteGalery.innerHTML = "Supprimer la galerie";
@@ -247,6 +232,8 @@ function toggleModal() {
   modalContainer.classList.toggle("active");
   firstModal();
 }
+/* Modal pour l'ajout photo */
+
 const goToAddForm = () => {
   console.log("je suis dans le formulaire d ajout");
   var e = document.getElementsByClassName("worksImgContainer")[0];
@@ -292,7 +279,7 @@ const goToAddForm = () => {
     console.log(file)
     
     if (file)
-    { /*Condition pour accepter que les images inférieur à 4mo */ 
+    { /*Condition pour accepter que les images inférieur à 4mo et refuser les documents d'autres types que jpeg et png */ 
       
       if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg")
       {
@@ -312,10 +299,9 @@ const goToAddForm = () => {
       }
    
   }
-}
-
-  /*Créé label pour lier au boutton */
-
+  }
+  
+  /*Créer label pour lier au boutton */
   var labelAddButton = document.createElement("label");
   labelAddButton.htmlFor = "inputImage";
 
@@ -379,13 +365,9 @@ addButton.className = "addWorksButton";
 addButton.innerHTML = "Valider";
 addButton.addEventListener("click", () => addWork(event));
 document.getElementsByClassName("workButtonModal")[0].appendChild(addButton);
-
 };
 
-
-
 /* Création fonction delete works */
-
 const deleteWork =(id)=>{
   const token=localStorage.getItem("token")
 console.log(id)
@@ -402,7 +384,6 @@ fetch("http://localhost:5678/api/works/"+id, {
 getWorks(0)
 })
 }
-
 const logout =()=>{
   localStorage.removeItem("token")
   window.location.href = "./index.html";
@@ -450,8 +431,6 @@ const addWork =(event)=>{
       }
     })
     .catch((error) => {
-      console.log(error.message)   
-      
+      console.log(error.message)        
     });
-
 }
