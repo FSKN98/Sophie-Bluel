@@ -3,7 +3,6 @@ let categories = []
 /* Barre de navigation en haute de la page */
 const checkIsLogin = () => {
   let token = localStorage.getItem("token");
-  console.log(token);
   if (token)
   {
     document.getElementById("modifier").className = "displayBlock modalButton modalTrigger"; //Pour afficher le bouton modifier sur la page login
@@ -73,7 +72,6 @@ const getCategories = () => {
   fetch("http://localhost:5678/api/categories")
     .then((response) => response.json())
     .then((count) => {
-      console.log(count);
 categories = count
       //Fonction forEach pour créer autant d'élément que dans le tableau de l'API
       count.forEach((el) => {
@@ -104,8 +102,6 @@ const getWorks = (filter) => {
   fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
     .then((count) => {
-      console.log(count);
-
       function createWorksList() {
         count.forEach((el) => {
           const createFigureElement = () => {
@@ -138,7 +134,6 @@ const getWorks = (filter) => {
 getWorks(0);
 
 const getWorksFilters = (filter) => {
-  console.log(filter);
   getWorks(filter);
 };
 /* Création de la première modal */
@@ -163,8 +158,6 @@ const firstModal = () => {
   fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
     .then((count) => {
-      console.log(count);
-
       function createWorksList() {
         count.forEach((el) => {
           var figureElement2 = document.createElement("figure");
@@ -222,7 +215,6 @@ document.getElementsByClassName("workButtonModal")[0].appendChild(deleteGalery);
 /* Modal */
 const modalContainer = document.querySelector(".modalContainer");
 const modalTriggers = document.querySelectorAll(".modalTrigger");
-console.log(modalTriggers);
 modalTriggers.forEach((trigger) =>
   trigger.addEventListener("click", toggleModal)
 );
@@ -235,7 +227,7 @@ function toggleModal() {
 /* Modal pour l'ajout photo */
 
 const goToAddForm = () => {
-  console.log("je suis dans le formulaire d ajout");
+
   var e = document.getElementsByClassName("worksImgContainer")[0];
   var b = document.getElementsByClassName("workButtonModal")[0];
 
@@ -276,8 +268,6 @@ const goToAddForm = () => {
   imageAdd.accept=" image/jpeg, image/png"
   inputImage.onchange = evt => {
   const [file] = inputImage.files
-    console.log(file)
-    
     if (file)
     { /*Condition pour accepter que les images inférieur à 4mo et refuser les documents d'autres types que jpeg et png */ 
       
@@ -342,7 +332,6 @@ const goToAddForm = () => {
   selectCategory.id ="categorySelect"
   selectCategory.name = "category";
   selectCategory.className = "input";
-console.log(categories)
 categories.forEach((el) => {
 
   var option = document.createElement("option");
@@ -370,7 +359,6 @@ document.getElementsByClassName("workButtonModal")[0].appendChild(addButton);
 /* Création fonction delete works */
 const deleteWork =(id)=>{
   const token=localStorage.getItem("token")
-console.log(id)
 fetch("http://localhost:5678/api/works/"+id, {
   method: "DELETE",
   headers: {
@@ -391,17 +379,39 @@ const logout =()=>{
 }
 const addWork =(event)=>{
   const token=localStorage.getItem("token")
-  
-  console.log("test")
   const category = document.getElementById("categorySelect");
   const title = document.getElementById("inputTitle");
   const image = document.getElementById("inputImage");
-  console.log(image.value)
   event.preventDefault();
   const formData = new FormData();
-	formData.append("image", image.files[0]);
-	formData.append("title", title.value);
-	formData.append("category", category.value);
+  if (image.files[0])
+  {
+    formData.append("image", image.files[0]);
+  }
+  else
+  {
+    return alert('Une image est requise pour ajouter un travail')
+  }
+ 
+  if (title.value)
+  {
+    formData.append("title", title.value);
+  }
+  else
+  {
+    return alert('Un titre est requis pour ajouter un travail')
+  }
+ 
+   if (category.value)
+  {
+   formData.append("category", category.value);
+  }
+  else
+  {
+   return alert('Une catégorie est requise pour ajouter un travail')
+  }
+  
+  /* Fonction pour l'ajout d'un travau */
 
   fetch("http://localhost:5678/api/works", {
     method: "POST",
@@ -418,19 +428,15 @@ const addWork =(event)=>{
         getWorks(0)
         return res.json();
       } else {
-        console.log(res.statusText);
         throw new Error(res.statusText);
       }
     })
     .then((work) => {
-      console.log(work);
-      if (work) {
-        console.log(work);
-      } else {
+      if (!work) {
         throw new Error("Invalid response from server");
       }
     })
     .catch((error) => {
-      console.log(error.message)        
+      alert(error.message)        
     });
 }

@@ -29,14 +29,11 @@ submit.addEventListener("click", function (event) {
       if (res.ok) {
         return res.json();
       } else {
-        console.log(res.statusText);
         throw new Error(res.statusText);
       }
     })
     .then((loginInfos) => {
-      console.log(loginInfos);
       if (loginInfos.token) {
-        console.log(loginInfos.token);
         localStorage.setItem("token", loginInfos.token);
         window.location.href = "../index.html";
         //document.cookie = "token=" + loginInfos.token; // on stocke le token dans un cookie
@@ -46,7 +43,6 @@ submit.addEventListener("click", function (event) {
       }
     })
     .catch((error) => {
-      console.log(error.message);
       if (error.message == "Unauthorized" || error.message == "Not Found") {
         alert("Erreur dans l’identifiant ou le mot de passe");
       } else {
